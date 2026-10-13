@@ -1,0 +1,31 @@
+# Keep the Docker build context minimal and secret-free.
+# The image builds from source (./mvnw clean package), so nothing generated
+# on the host must leak in.
+
+# Git metadata
+.git/
+.gitattributes
+
+# Build output (regenerated inside the builder stage)
+target/
+*.jar
+*.jar.original
+*.class
+
+# Local environment files and secrets — never baked into an image
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# IDE metadata
+.idea/
+.vscode/
+*.iml
+
+# Unneeded docs and Docker files themselves
+HELP.md
+Dockerfile
+.dockerignore
