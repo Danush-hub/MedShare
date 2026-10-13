@@ -1,0 +1,21 @@
+import { describe, expect, it } from 'vitest';
+import { cn } from './cn';
+
+describe('cn', () => {
+  it('joins truthy class names with a space', () => {
+    expect(cn('a', 'b')).toBe('a b');
+  });
+
+  it('ignores falsy values', () => {
+    expect(cn('a', false, undefined, null, 'b')).toBe('a b');
+  });
+
+  it('returns an empty string when nothing is truthy', () => {
+    expect(cn(false, undefined)).toBe('');
+  });
+
+  it('supports conditional expressions', () => {
+    const active = true;
+    expect(cn('base', active && 'is-active')).toBe('base is-active');
+  });
+});

@@ -1,0 +1,39 @@
+# Netlify configuration for the MedShare frontend-only demo.
+# Build output: Vite emits the static site to `dist/` (default outDir; nothing
+# to override in the UI). The SPA fallback below makes direct navigation and
+# page refreshes on client-side routes such as /app/equipment, /app/requests
+# or /app/transfers resolve to index.html, matching React Router's
+# BrowserRouter-based setup.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Single SPA fallback: every path serves index.html. No API paths exist yet
+# (VITE_DATA_MODE=api intentionally throws NOT_IMPLEMENTED in the browser),
+# so no /api proxy or additional redirects are configured.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Conservative security headers appropriate for a public static demo.
+# NOTE: CSP is intentionally NOT set here — the landing page loads images from
+# images.unsplash.com and fonts from fonts.googleapis.com/gstatic.com, and a
+# wrong policy would silently break the UI. If you add one, allow at least
+# 'self' plus those three image/font origins.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Demo credentials are compiled into the public bundle by design (mock auth);
+# no secrets belong in Netlify environment variables. VITE_* values are baked
+# in at build time — change them in Netlify site settings only as documented
+# in the README ("Deploying to Netlify").
+[build.environment]
+  NODE_VERSION = "20"
+  VITE_DATA_MODE = "mock"
+  VITE_APP_ENV = "production"

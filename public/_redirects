@@ -1,0 +1,6 @@
+# SPA fallback — portable equivalent of the [[redirects]] rule in netlify.toml.
+# Netlify reads either file (netlify.toml takes precedence); GitHub Pages via
+# a 404-based workaround, Cloudflare Pages and most static hosts also honor
+# this file. It makes direct visits/refreshes on client-side routes such as
+# /app/equipment resolve to the React app instead of a 404.
+/*  /index.html  200
