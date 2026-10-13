@@ -17,8 +17,8 @@ export function createServices(mode: DataMode, access: WorkspaceAccess): AppServ
     case 'mock':
       return { auth: mockAuthService, ...createMockServices(access) };
     case 'api':
-      // Placeholders only — every call fails with NOT_IMPLEMENTED until the
-      // Spring Boot backend exists. No requests are performed.
+      // Real HTTP adapters calling the Spring Boot backend through the
+      // configured Axios client (`VITE_API_BASE_URL`).
       return { auth: httpAuthService, ...createHttpServices() };
   }
 }

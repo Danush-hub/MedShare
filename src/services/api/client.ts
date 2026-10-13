@@ -9,12 +9,13 @@ import {
 } from '../errors';
 
 /**
- * Centralized Axios instance for the future Spring Boot REST API.
+ * Centralized Axios instance for the Spring Boot REST API.
  *
- * Fully configured but intentionally NOT called by any feature in this
- * phase: `VITE_DATA_MODE` defaults to `mock`, so no request ever leaves the
- * browser. Endpoints are documented in docs/API_CONTRACT.md. When the backend
- * lands, the `src/services/http` placeholders are re-pointed at this client.
+ * Used by the HTTP service adapters in `src/services/http` when
+ * `VITE_DATA_MODE=api`; with the default `mock` mode no request ever leaves
+ * the browser. Endpoints are documented in docs/API_CONTRACT.md and the
+ * response interceptor below normalizes every failure into a `ServiceError`,
+ * so mock and REST errors flow through one type in the UI.
  */
 export const apiClient: AxiosInstance = axios.create({
   baseURL: env.apiBaseUrl,
